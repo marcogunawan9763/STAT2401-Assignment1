@@ -32,33 +32,46 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:**
 
-    *Answer text here*
+    0.9938
 
-    ```{r}
+    ```{r include = FALSE}
     # Answer code here
+    1 - pnorm(15, mean = 25, sd = 4)
     ```
 
 (b) (2 marks) Find the probability that the user spends between 20 and 35 minutes per month at the site.
 
     **Answer:**
 
-    *ijsaidajid*
+    0.8881
 
     ```{r include=FALSE}
-    pnorm(dadpsds)
+    pnorm(35, mean = 25, sd = 4) - pnorm(20, mean = 25, sd = 4)
+      
     ```
 
 (c) (2 marks) What is the amount of time per month a user spends on Facebook, if only 1% of users spend this time or longer on Facebook?
 
     **Answer:**
 
-    *Answer text here*
+    34.3054
+
+    ```{r include = FALSE}
+    qnorm(0.99, mean = 25, sd = 4)
+
+    ```
 
 (d) (3 marks) Between what values do the time spent of the middle 90% distribution of Facebook users fall?
 
     **Answer:**
 
-    *Answer text here*
+    31.5794 and 18.42059
+
+    ```{r include = FALSE}
+    qnorm(0.95, mean = 25, sd = 4)
+    qnorm(0.05, mean = 25, sd = 4)
+
+    ```
 
 # Question 2 Blood fat concentration (11 marks)
 
