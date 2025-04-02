@@ -1,4 +1,4 @@
----
+ ---
 title: "Assignment 1 Submission"
 author: "Ian Chen, Marco Gunawan"
 date: "submission date"
@@ -30,53 +30,126 @@ State what each team member has contributed to the assignment before answering t
 
 (a) (1 mark) Find the probability that the user spends more than 15 minutes per month at the site.
 
-    **Answer:**
+    **Answer: 0.9937903**
 
-    *Answer text here*
+    *Answer text here: *
 
-    ```{r}
-    # Answer code here
+```{r echo=TRUE}
+    pnorm(15,mean = 25, sd = 4,lower.tail=FALSE)
     ```
 
 (b) (2 marks) Find the probability that the user spends between 20 and 35 minutes per month at the site.
 
-    **Answer:**
+    **Answer:0.8881406**
 
-    *ijsaidajid*
+    *words words blah blah blah thingy minus thingy*
 
     ```{r include=FALSE}
-    pnorm(dadpsds)
+    pnorm(35,25,4) - pnorm(20,25,4)
     ```
 
 (c) (2 marks) What is the amount of time per month a user spends on Facebook, if only 1% of users spend this time or longer on Facebook?
 
-    **Answer:**
+    **Answer: 34.30539 **
 
     *Answer text here*
+    
+```{r}
+qnorm(0.99,25,4)
+```
+    
 
 (d) (3 marks) Between what values do the time spent of the middle 90% distribution of Facebook users fall?
 
-    **Answer:**
+    **Answer: 18.42059 and 31.57941**
 
     *Answer text here*
+    
+```{r}
+qnorm(c(0.05, 0.95), 25, 4)
+```
+    
+```{r}
+qnorm(0.05, 25, 4)  # 5th percentile
+qnorm(0.95, 25, 4)  # 95th percentile
+```
 
 # Question 2 Blood fat concentration (11 marks)
 
 (a) (6 marks) Conduct a two-independent sample $t$-test using R to determine whether the concentration of plasma cholesterol is significantly different between patients with no evidence of heart disease and those with narrowing of the arteries.
 
-    **Answer:**
+    **Answer: Statistically significant difference in plasma cholesterol levels between patients with and without heart disease, very small pvalue much less than 0.01**
 
     *Answer text here*
+    
+    ```{r}
+# Group 1 (No disease)
+mean1 <- 195.2745
+var1 <- 1303.9231
+sd1 <- sqrt(1303.9231)  # Convert variance to SD
+n1 <- 51
+
+# Group 2 (Disease)
+mean2 <- 216.1906
+var2 <- 1850.2488
+sd2 <- sqrt(1850.2488)   # Convert variance to SD
+n2 <- 320
+
+
+t_statistic <- (mean1-mean2)/sqrt((var1/n1)+(var2/n2))
+
+print(t_statistic)
+
+df <- ( (var1/n1 + var2/n2)^2 ) / ( (var1/n1)^2/(n1-1) + (var2/n2)^2/(n2-1) )
+
+print(df)
+
+p_value <- 2 * (1 - pt(abs(t_statistic), df)) # x2 because two sided
+
+print(p_value)
+
+
+```
 
 (b) (3 marks) Determine a 99% confidence interval for the mean difference in concentration of plasma cholesterol between the two groups of patients.
 
     **Answer:**
 
     *Answer text here*
+    
+```{r}
+# Given data
+mean1 <- 195.2745
+var1 <- 1303.9231
+n1 <- 51
+
+mean2 <- 216.1906
+var2 <- 1850.2488
+n2 <- 320
+
+# Compute standard error
+SE <- sqrt((var1/n1) + (var2/n2))
+
+df <- ( (var1/n1 + var2/n2)^2 ) / ( (var1/n1)^2/(n1-1) + (var2/n2)^2/(n2-1) )
+
+t_critical <- qt(0.995, df)
+
+margin_of_error = t_critical * SE
+
+CI_lower <- (mean1 - mean2) - margin_of_error
+CI_upper <- (mean1 - mean2) + margin_of_error
+
+cat("99% CI: (", CI_lower, ",", CI_upper, ")\n")
+
+
+
+
+```
+    
 
 (c) (2 marks) Explain the correspondence between the confidence interval in (b) and a test of the hypotheses you listed in question (a).
 
-    **Answer:**
+    **Answer: The Confidence interval does not include zero, hence the data suggests that we can conclude that there is a statistically difference between datasets. This corresponds with the low pvalue from a **
 
     *Answer text here*
 
