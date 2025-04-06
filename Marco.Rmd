@@ -30,9 +30,7 @@ State what each team member has contributed to the assignment before answering t
 
 (a) (1 mark) Find the probability that the user spends more than 15 minutes per month at the site.
 
-    **Answer:**
-
-    0.9938
+    **Answer:** 0.9938
 
     ```{r include = FALSE}
     # Answer code here
@@ -41,36 +39,27 @@ State what each team member has contributed to the assignment before answering t
 
 (b) (2 marks) Find the probability that the user spends between 20 and 35 minutes per month at the site.
 
-    **Answer:**
-
-    0.8881
+    **Answer:** 0.8881
 
     ```{r include=FALSE}
     pnorm(35, mean = 25, sd = 4) - pnorm(20, mean = 25, sd = 4)
-      
     ```
 
 (c) (2 marks) What is the amount of time per month a user spends on Facebook, if only 1% of users spend this time or longer on Facebook?
 
-    **Answer:**
-
-    34.3054
+    **Answer:** 34.3054
 
     ```{r include = FALSE}
     qnorm(0.99, mean = 25, sd = 4)
-
     ```
 
 (d) (3 marks) Between what values do the time spent of the middle 90% distribution of Facebook users fall?
 
-    **Answer:**
-
-    31.5794 and 18.42059
+    **Answer:** (18.42059, 31.5794)
 
     ```{r include = FALSE}
-    qnorm(0.95, mean = 25, sd = 4)
     qnorm(0.05, mean = 25, sd = 4)
-
+    qnorm(0.95, mean = 25, sd = 4)
     ```
 
 # Question 2 Blood fat concentration (11 marks)
@@ -79,19 +68,78 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:**
 
-    *Answer text here*
+    1.  $H_0: \mu_1 = \mu_2$ against $H_A:  \mu_1 \ne  \mu_2$
+
+        where $\mu_1$ and $\mu_2$ are the population means of plasma cholesterol concentrations in patients with no evidence of heart disease and those with narrowing of the arteries respectively.
+
+    2.  the test statistic is t = -3.7357
+
+    3.  the sampling distribution is $t_{df=75}$.
+
+    4.  p-value = 0.0003641 \< 0.01.
+
+    5.  Reject $H_0$ at the 1% significance level.
+
+    6.  Therefore, we conclude that the population means of plasma cholesterol concentrations in patients with no evidence of heart disease and those with narrowing of the arteries are significantly different.
+
+    ```{r include = FALSE}
+    #No Disease
+    mean1 <- 195.2745
+    var1 <- 1303.9231
+    n1 <- 51
+
+    #Disease
+    mean2 <- 216.1906
+    var2 <- 1850.2488
+    n2 <- 320
+    ```
+
+    ```{r}
+    #calculate t and df
+    t_stat <- (mean1 - mean2)/sqrt(var1/n1 + var2/n2)
+    df <- (var1/n1 + var2/n2)^2 / ((var1/n1)^2/(n1-1) + (var2/n2)^2/(n2-1))
+
+    #calculate P_val
+    p_val <- 2 * pt(-abs(t_stat), df)
+    ```
 
 (b) (3 marks) Determine a 99% confidence interval for the mean difference in concentration of plasma cholesterol between the two groups of patients.
 
     **Answer:**
 
-    *Answer text here*
+    A 99% confidene interval for the mean difference in concentration of plasma cholesterol between the two groups of patients can be given as:
+
+    (-35.7164, -6.1158)
+
+    With the mean_difference = -20.9161, standard_error = 5.5990, critical t_value = 2.6434 and same degrees of freedom from (a), at df = 74.5745 \~ 75.
+
+    ```{r}
+    # Calculate the mean difference
+    mean_diff <- mean1 - mean2
+
+    # Calculate the standard error of the difference
+    se_diff <- sqrt(var1/n1 + var2/n2)
+
+    # Find critical t-value for 99% confidence interval (two sided)
+    t_crit <- qt(0.995, df)
+
+    # Calculate the margin of error
+    margin_error <- t_crit * se_diff
+
+    # Calculate the confidence interval
+    lower_ci <- mean_diff - margin_error
+    upper_ci <- mean_diff + margin_error
+    ```
 
 (c) (2 marks) Explain the correspondence between the confidence interval in (b) and a test of the hypotheses you listed in question (a).
 
     **Answer:**
 
-    *Answer text here*
+    Since the confidence interval does not contain zero, this aligns with rejecting the null hypothesis at the 1% significance level in question (a).
+
+    The confidence interval is entirely negative, meaning that the mean plasma cholesterol concentration in the group with no heart disease is lower than the mean in the group with narrowing of arteries. The magnitude of the difference falling between 6.12 and 35.72 units with 99% confidence.
+
+    The fact that zero is not in the interval corresponds directly to the p-value (0.0003641) being less than 0.01, both leading to the same conclusion of rejecting $H_0$.
 
 # Question 3 Regression (31 marks)
 
