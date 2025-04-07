@@ -32,8 +32,7 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:** 0.9938
 
-    ```{r include = FALSE}
-    # Answer code here
+    ```{r include=FALSE}
     1 - pnorm(15, mean = 25, sd = 4)
     ```
 
@@ -49,7 +48,7 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:** 34.3054
 
-    ```{r include = FALSE}
+    ```{r include=FALSE}
     qnorm(0.99, mean = 25, sd = 4)
     ```
 
@@ -57,7 +56,7 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:** (18.42059, 31.5794)
 
-    ```{r include = FALSE}
+    ```{r include=FALSE}
     qnorm(0.05, mean = 25, sd = 4)
     qnorm(0.95, mean = 25, sd = 4)
     ```
@@ -82,7 +81,7 @@ State what each team member has contributed to the assignment before answering t
 
     6.  Therefore, we conclude that the population means of plasma cholesterol concentrations in patients with no evidence of heart disease and those with narrowing of the arteries are significantly different.
 
-    ```{r include = FALSE}
+    ```{r include=FALSE}
     #No Disease
     mean1 <- 195.2745
     var1 <- 1303.9231
@@ -147,13 +146,44 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:**
 
-    *Answer text here*
+    ```{r include=FALSE}
+    #read .txt file
+    glakes <- read.table("glakes.txt", header = TRUE)
+    summary(glakes)
+
+    #create the linear model M_1
+    glakes_lm_1 <- lm(Time~Tonnage, data = glakes)
+    ```
+
+    ```{r echo=FALSE}
+    library(ggplot2)
+    ggplot(data = glakes) + 
+      geom_point(mapping = aes(x = Tonnage, y = Time)) +
+      geom_abline(intercept = coef(glakes_lm_1)[1], slope = coef(glakes_lm_1)[2], color = "red", linewidth = 1) +
+      theme(legend.position = "bottom") +
+      labs(title = "Great Lakes Time over Tonnage",
+           x = "Tonnage", 
+           y = "Time")
+    ```
 
 (b) (5 marks) Provide the model summary and diagnostics checking plots for model $M_1.$ Does the straight line regression model $M_1$ seem to fit the data well? Comment about the output in a few concise sentences.
 
     **Answer:**
 
-    *Answer text here*
+    The model summary for model $M_1$:
+
+    ```{r echo=FALSE}
+    #model summary
+    summary(glakes_lm_1)
+    ```
+
+    Diagnostics checking plots for model $M_1$
+
+    ```{r echo=FALSE}
+    # diagnostics checing plots
+    par(mfrow = c(2,2))
+    plot(glakes_lm_1)
+    ```
 
 (c) (5 marks) Do you think there are outliers or influential points in the data? What influence do these points have on the model fit? Use leverage and Cook's distance for this investigation.
 
@@ -165,21 +195,66 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:**
 
-    *Answer text here*
+    ```{r include=FALSE}
+    #model M_2
+    log_Time = log(glakes$Time)
+    sqrt_Tonnage = sqrt(glakes$Tonnage)
+    glakes_lm_2 <- lm(log_Time~sqrt_Tonnage, data = glakes)
+    ```
+
+    ```{r echo=FALSE}
+    #plot transformed M_2 model
+    ggplot(data = glakes) + 
+      geom_point(mapping = aes(x = sqrt_Tonnage, y = log_Time)) +
+      geom_abline(intercept = coef(glakes_lm_2)[1], slope = coef(glakes_lm_2)[2], color = "red", linewidth = 1) +
+      theme(legend.position = "bottom") +
+      labs(title = "",
+           x = "sqrt(Tonnage)", 
+           y = "Log(Time)")
+    ```
 
 (e) (5 marks) Provide the model summary and diagnostics checking plots for model $M_2.$ Does the straight line regression model $M_2$ seem to fit the data well? Comment about the output in a few concise sentences.
 
     **Answer:**
 
-    *Answer text here*
+    ```{r echo=FALSE}
+    #model summary
+    summary(glakes_lm_2)
+    ```
 
-(f) (4 marks) Perform a hypothesis testing for a positive slope at a significance level of 5% based on model $M_2.$
+    ```{r echo=FALSE}
+    # diagnostics checing plots
+    par(mfrow = c(2,2))
+    plot(glakes_lm_2)
+    ```
+
+    (4 marks) Perform a hypothesis testing for a positive slope at a significance level of 5% based on model $M_2.$
 
     **Answer:**
 
-    *Answer text here*
+    1.  $H_0: \beta_1 \le 0$ against $H_A:  \beta_1 >  0$
 
-(g) (6 marks) Compare a 95% confidence interval of the mean response and a 95% prediction interval for a new value when Tonnage = 10,000 using the untransformed model $M_1$ and transformed model $M_2$ respectively. Provide two scatterplots that consist the fitted model, the confidence and prediction intervals for each of $M_1$ and $M_2$ respectively. Comment about the output in a few concise sentences.
+        where $\beta_1$ is the slope of the model $M_2$. Note that the alternative hypothesis is one sided.
+
+    2.  The test statistic (from R output as shown in question (e):
+
+        $$
+        t = \frac{\hat{\beta}-0}{se(\hat{\beta})}=\frac{0.021514}{0.001909}=11.27
+        $$
+
+    3.  The sampling distribution for the test statistic t is $t_{df=(n-2)}$ that is $t_{df=31-2=29}$.
+
+    4.  The p-value = P($t_{29}$ \> 11.27) = 2.048434e-12 (see below)
+
+        ```{r}
+        pt(11.27, 29, lower.tail=FALSE)
+        ```
+
+    5.  Decision. Given the p-value is kess than the significance level (0.05), we reject the null hypothesis $H_0$ at the 5% significance level.
+
+    6.  Conslusion. Therefore, we conclude that the slope is statistically significantly positive.
+
+(f) (6 marks) Compare a 95% confidence interval of the mean response and a 95% prediction interval for a new value when Tonnage = 10,000 using the untransformed model $M_1$ and transformed model $M_2$ respectively. Provide two scatterplots that consist the fitted model, the confidence and prediction intervals for each of $M_1$ and $M_2$ respectively. Comment about the output in a few concise sentences.
 
     **Answer:**
 
