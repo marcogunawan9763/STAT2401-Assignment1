@@ -239,40 +239,6 @@ State what each team member has contributed to the assignment before answering t
        y = "Time",
        color = "Model")
     ```
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
-
-
-```{r}
-```
 
     The new model better fits what appear to be a linear relationship
 
