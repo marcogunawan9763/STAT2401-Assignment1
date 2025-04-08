@@ -158,14 +158,34 @@ cat("99% CI: (", CI_lower, ",", CI_upper, ")\n")
 (a) (2 marks) Fit a simple linear model $M_1$ to these data. Present the appropriate scatterplot and plot the fitted line onto the scatterplot. Comment about the output in a few concise sentences.
 
     **Answer:**
+    
+    
 
     *Answer text here*
+    
+```{r}
+glakes <- read.table("glakes.txt", header = TRUE)
+model_m1 <- lm(Time ~ Tonnage, data = glakes)
+
+plot(Time ~ Tonnage, data = glakes, xlab = "Tonnage", ylab = "Time", main = "Scatterplot of Time vs Tonnage")
+
+```
+    
 
 (b) (5 marks) Provide the model summary and diagnostics checking plots for model $M_1.$ Does the straight line regression model $M_1$ seem to fit the data well? Comment about the output in a few concise sentences.
 
     **Answer:**
 
     *Answer text here*
+    
+```{r}
+summary(model_m1)
+
+par(mfrow = c(2, 2))  # Arrange plots in a 2x2 grid
+plot(model_m1)
+par(mfrow = c(1, 1))  # Reset plot layout
+```
+    
 
 (c) (5 marks) Do you think there are outliers or influential points in the data? What influence do these points have on the model fit? Use leverage and Cook's distance for this investigation.
 
