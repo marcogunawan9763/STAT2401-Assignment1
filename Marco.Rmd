@@ -1,7 +1,7 @@
 ---
 title: "Assignment 1 Submission"
 author: "Ian Chen, Marco Gunawan"
-date: "submission date"
+date: "10/04/2025"
 output:
   pdf_document: default
 ---
@@ -32,7 +32,7 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:** 0.9938
 
-    ```{r include=FALSE}
+    ```{r}
     1 - pnorm(15, mean = 25, sd = 4)
     ```
 
@@ -40,7 +40,7 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:** 0.8881
 
-    ```{r include=FALSE}
+    ```{r}
     pnorm(35, mean = 25, sd = 4) - pnorm(20, mean = 25, sd = 4)
     ```
 
@@ -48,7 +48,7 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:** 34.3054
 
-    ```{r include=FALSE}
+    ```{r}
     qnorm(0.99, mean = 25, sd = 4)
     ```
 
@@ -56,7 +56,7 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:** (18.42059, 31.5794)
 
-    ```{r include=FALSE}
+    ```{r}
     qnorm(0.05, mean = 25, sd = 4)
     qnorm(0.95, mean = 25, sd = 4)
     ```
@@ -67,21 +67,33 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:**
 
-    1.  $H_0: \mu_1 = \mu_2$ against $H_A:  \mu_1 \ne  \mu_2$
+    1.  Hypotheses:
+
+        $H_0: \mu_1 = \mu_2$ against $H_A:  \mu_1 \ne  \mu_2$
 
         where $\mu_1$ and $\mu_2$ are the population means of plasma cholesterol concentrations in patients with no evidence of heart disease and those with narrowing of the arteries respectively.
 
-    2.  the test statistic is t = -3.7357
+    2.  Assuming unequal variances, the test statistic $t$ can be given as:
 
-    3.  the sampling distribution is $t_{df=75}$.
+        $$
+        t = \frac{195.2745-216.1906}{\sqrt{\frac{1303.9231}{51} + \frac{1850.2488}{320}}} = -3.7357
+        $$
 
-    4.  p-value = 0.0003641 \< 0.01.
+        Similarly, the degrees of freedom $df$ is given by:
 
-    5.  Reject $H_0$ at the 1% significance level.
+        $$
+        df = \frac{(\frac{1303.9251}{51}+\frac{1850.2488}{320})^2}{\frac{1}{51-1}(\frac{1303.9231}{51})^2+\frac{1}{320-1}(\frac{1850.2488}{320})^2} = 74.5745
+        $$
 
-    6.  Therefore, we conclude that the population means of plasma cholesterol concentrations in patients with no evidence of heart disease and those with narrowing of the arteries are significantly different.
+    3.  the sampling distribution thus is $t_{df=74.5745}$.
 
-    ```{r include=FALSE}
+    4.  The calculated p-value = 0.0003641 \< 0.01.
+
+    5.  Decision. Given the p-value is less than the significance level (0.01), we reject the null hypothesis $H_0$ at the 1% significance level
+
+    6.  Conclusion. Therefore, we conclude that the population means of plasma cholesterol concentrations in patients with no evidence of heart disease and those with narrowing of the arteries are significantly different.
+
+    ```{r}
     #No Disease
     mean1 <- 195.2745
     var1 <- 1303.9231
@@ -189,16 +201,91 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:**
 
-    *Answer text here*
+    Having a look at the Cook's distance plot:
+
+    ```{r echo=FALSE}
+    par(mar = c(4, 4, 1.5, 1.5))
+    plot(glakes_lm_1, which = 5, cook.levels = 4 / (nrow(glakes) - 2))
+    abline(h = 2, col = "red", lty = 2)   # horizontal line at y = 2
+    abline(h = -2, col = "red", lty = 2)  # horizontal line at y = -2
+    ```
+
+    We say that a point is classified as a leverage point in simple linear regression, if it's leverage $h_{ii}$ \> 4/$n$. As $n$ = 31, the rule is $h_{ii}$ \> 0.13. As leverage $h_{ii}$ in the plot above has two points with $h_{ii}$ \> 0.13, there are two leverage points in the data.
+
+    We say that points are outliers if their standardized residuals have an absolute value of greater than 2. From the plot above, we can see that there are 2 points whose standardized residuals have an absolute value of greater than 2, such that there are 2 outliers.
+
+    Influential points are observations that have a big influence on the fitted line. This happens when the observations are both high leverage and is unusual (potentially an outlier). We note that the only point which meets both of these criterias is observation 3 and fitting a model after removing this point gives us:
+
+    ```{r echo=FALSE}
+    glakes_clean <- glakes[-c(3), ]
+    glakes_lm_1_clean <- lm(Time~Tonnage, data = glakes_clean)
+
+    # Create a small data frame with model info
+    lines_df <- data.frame(
+      intercept = c(coef(glakes_lm_1)[1], coef(glakes_lm_1_clean)[1]),
+      slope = c(coef(glakes_lm_1)[2], coef(glakes_lm_1_clean)[2]),
+      Model = c("Original", "Cleaned")
+    )
+
+    ggplot(data = glakes) + 
+      geom_point(mapping = aes(x = Tonnage, y = Time)) +
+      geom_abline(data = lines_df, 
+              mapping = aes(intercept = intercept, slope = slope, color = Model),
+              linewidth = 1) +
+      scale_color_manual(values = c("Original" = "red", "Cleaned" = "blue")) +
+      theme(legend.position = "bottom") +
+      labs(title = "Great Lakes Time over Tonnage",
+       x = "Tonnage", 
+       y = "Time",
+       color = "Model")
+    ```
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+    The new model better fits what appear to be a linear relationship
 
 (d) (4 marks) Fit a regression model to the transformed $M_2$ model. Present the appropriate scatterplot and plot the fitted line onto the scatterplot. Does the transformed line regression model $M_2$ seem to fit the data well? Comment about the output in a few concise sentences.
 
     **Answer:**
 
-    ```{r include=FALSE}
-    #model M_2
+    ```{r}
+    #model M_2 data transformations
     log_Time = log(glakes$Time)
     sqrt_Tonnage = sqrt(glakes$Tonnage)
+
+    #linear regression model M_2
     glakes_lm_2 <- lm(log_Time~sqrt_Tonnage, data = glakes)
     ```
 
@@ -244,15 +331,15 @@ State what each team member has contributed to the assignment before answering t
 
     3.  The sampling distribution for the test statistic t is $t_{df=(n-2)}$ that is $t_{df=31-2=29}$.
 
-    4.  The p-value = P($t_{29}$ \> 11.27) = 2.048434e-12 (see below)
+    4.  The p-value = P($t_{29}$ \> 11.27) = 2.048434e-12
 
-        ```{r}
+        ```{r include = FALSE}
         pt(11.27, 29, lower.tail=FALSE)
         ```
 
-    5.  Decision. Given the p-value is kess than the significance level (0.05), we reject the null hypothesis $H_0$ at the 5% significance level.
+    5.  Decision. Given the p-value is less than the significance level (0.05), we reject the null hypothesis $H_0$ at the 5% significance level.
 
-    6.  Conslusion. Therefore, we conclude that the slope is statistically significantly positive.
+    6.  Conclusion. Therefore, we conclude that the slope is statistically significantly positive.
 
 (f) (6 marks) Compare a 95% confidence interval of the mean response and a 95% prediction interval for a new value when Tonnage = 10,000 using the untransformed model $M_1$ and transformed model $M_2$ respectively. Provide two scatterplots that consist the fitted model, the confidence and prediction intervals for each of $M_1$ and $M_2$ respectively. Comment about the output in a few concise sentences.
 
