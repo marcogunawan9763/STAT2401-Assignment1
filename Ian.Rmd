@@ -113,7 +113,7 @@ print(p_value)
 
 (b) (3 marks) Determine a 99% confidence interval for the mean difference in concentration of plasma cholesterol between the two groups of patients.
 
-    **Answer:**
+    **Answer: 99% CI: ( -35.71644 , -6.115758 )**
 
     *Answer text here*
     
@@ -159,6 +159,8 @@ cat("99% CI: (", CI_lower, ",", CI_upper, ")\n")
 
     **Answer:**
     
+    The output depicts a positive linear relationship between the volume of a ship's cargo (tonnage) and the time required to load and unload it. This suggests that the larger the tonnage, the longer it will take to load and unload it. However, the strength of the relationship is weak past the 7500 ton mark as there are insufficient data points in that range. Most observations fall below 7500 tons, with only two data points above this threshold. Hence this model may not be reliable in this higher tonnage range.
+    
     
 
     *Answer text here*
@@ -175,6 +177,27 @@ plot(Time ~ Tonnage, data = glakes, xlab = "Tonnage", ylab = "Time", main = "Sca
 (b) (5 marks) Provide the model summary and diagnostics checking plots for model $M_1.$ Does the straight line regression model $M_1$ seem to fit the data well? Comment about the output in a few concise sentences.
 
     **Answer:**
+    Question 3b redo)
+
+Model Summary:
+
+The fitted model equation is : Time= 12.3447+ 0.006518 × Tonnage
+
+Slope interpretation βˆ1 = 0.006518: Time is expected to increase by 0.006518 units on average for every 1 unit increase in Tonnage.
+
+Intercept interpretation βˆ 0 = 12.3447: This means that when the tonnage is zero, the time taken to unload and load the ship is expected to be 12.3447 units. This measurement is the time the ship spent in port as the time recorded includes this alongside the load/unload times.
+
+The p-values for both coefficients are both extremely small, being under 0.001 which means we have strong evidence to reject the null hypothesis. Thus it is suggested that the tonnage has a significant impact on time.
+
+Diagnostic Plots Analysis:
+
+Residuals vs Fitted: The plot shows no clear pattern. This suggests that the relationship is approximately linear.
+
+Q-Q Residuals: The majority of the data-points are on the diagonal line, suggesting the residuals are apporiximetly normally distrubted. However. there is some deviation towards the extremes indicating there may be some outliers within the data.
+
+Scale-Location: The line trends slightly upwards which suggests that the variance may not be constant and is in fact increasing.
+
+Residuals vs Leverage: (this is covered in the next question)
 
     *Answer text here*
     
@@ -196,6 +219,18 @@ par(mfrow = c(1, 1))  # Reset plot layout
 (d) (4 marks) Fit a regression model to the transformed $M_2$ model. Present the appropriate scatterplot and plot the fitted line onto the scatterplot. Does the transformed line regression model $M_2$ seem to fit the data well? Comment about the output in a few concise sentences.
 
     **Answer:**
+Model Summary: 
+
+The fitted model equation is: log(Time) = 2.2104 + 0.02151 × sqrt(Tonnage)  
+
+Slope interpretation (β̂₁ = 0.02151):**do later**
+
+Intercept interpretation (β̂₀ = 2.2104):**do later**
+
+Diagnostic Plots Analysis: **do later**
+
+The p-values for both coefficients are both less than 0.001. This provides strong evidence that rejects the null hypothesis. Therefore, it is suggested that there is a significant relationship between the square root of tonnage and logarithm of time.
+
 
     *Answer text here*
 
