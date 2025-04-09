@@ -1,7 +1,7 @@
 ---
 title: "Assignment 1 Submission"
 author: "Ian Chen, Marco Gunawan"
-date: "10/04/2025"
+date: "11/04/2025"
 output:
   pdf_document: default
 ---
@@ -12,9 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Statement of Contribution
 
-Include this if pairing.
-
-State what each team member has contributed to the assignment before answering the questions. Each student must contribute towards ALL questions. Your assignment will not be marked without this statement.
+Each member attempted each question, and we combines and discussed our personal findings to be set into this document.
 
 ```{r eval=FALSE, include=FALSE}
 ## There are a few options in every chunk, click the setting button (greyed) near the triangle:
@@ -32,7 +30,7 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:** 0.9938
 
-    ```{r}
+    ```{r eval=FALSE}
     1 - pnorm(15, mean = 25, sd = 4)
     ```
 
@@ -40,7 +38,7 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:** 0.8881
 
-    ```{r}
+    ```{r eval=FALSE}
     pnorm(35, mean = 25, sd = 4) - pnorm(20, mean = 25, sd = 4)
     ```
 
@@ -48,7 +46,7 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:** 34.3054
 
-    ```{r}
+    ```{r eval=FALSE}
     qnorm(0.99, mean = 25, sd = 4)
     ```
 
@@ -56,7 +54,7 @@ State what each team member has contributed to the assignment before answering t
 
     **Answer:** (18.42059, 31.5794)
 
-    ```{r}
+    ```{r eval=FALSE}
     qnorm(0.05, mean = 25, sd = 4)
     qnorm(0.95, mean = 25, sd = 4)
     ```
@@ -64,8 +62,6 @@ State what each team member has contributed to the assignment before answering t
 # Question 2 Blood fat concentration (11 marks)
 
 (a) (6 marks) Conduct a two-independent sample $t$-test using R to determine whether the concentration of plasma cholesterol is significantly different between patients with no evidence of heart disease and those with narrowing of the arteries.
-
-    **Answer:**
 
     1.  Hypotheses:
 
@@ -116,8 +112,6 @@ State what each team member has contributed to the assignment before answering t
 
 (b) (3 marks) Determine a 99% confidence interval for the mean difference in concentration of plasma cholesterol between the two groups of patients.
 
-    **Answer:**
-
     A 99% confidene interval for the mean difference in concentration of plasma cholesterol between the two groups of patients can be given as:
 
     (-35.7164, -6.1158)
@@ -144,8 +138,6 @@ State what each team member has contributed to the assignment before answering t
 
 (c) (2 marks) Explain the correspondence between the confidence interval in (b) and a test of the hypotheses you listed in question (a).
 
-    **Answer:**
-
     Since the confidence interval does not contain zero, this aligns with rejecting the null hypothesis at the 1% significance level in question (a).
 
     The confidence interval is entirely negative, meaning that the mean plasma cholesterol concentration in the group with no heart disease is lower than the mean in the group with narrowing of arteries. The magnitude of the difference falling between 6.12 and 35.72 units with 99% confidence.
@@ -155,8 +147,6 @@ State what each team member has contributed to the assignment before answering t
 # Question 3 Regression (31 marks)
 
 (a) (2 marks) Fit a simple linear model $M_1$ to these data. Present the appropriate scatterplot and plot the fitted line onto the scatterplot. Comment about the output in a few concise sentences.
-
-    **Answer:**
 
     ```{r include=FALSE}
     #read .txt file
@@ -198,8 +188,6 @@ State what each team member has contributed to the assignment before answering t
     ```
 
 (c) (5 marks) Do you think there are outliers or influential points in the data? What influence do these points have on the model fit? Use leverage and Cook's distance for this investigation.
-
-    **Answer:**
 
     Having a look at the Cook's distance plot:
 
@@ -244,8 +232,6 @@ State what each team member has contributed to the assignment before answering t
 
 (d) (4 marks) Fit a regression model to the transformed $M_2$ model. Present the appropriate scatterplot and plot the fitted line onto the scatterplot. Does the transformed line regression model $M_2$ seem to fit the data well? Comment about the output in a few concise sentences.
 
-    **Answer:**
-
     ```{r}
     #model M_2 data transformations
     log_Time = log(glakes$Time)
@@ -268,8 +254,6 @@ State what each team member has contributed to the assignment before answering t
 
 (e) (5 marks) Provide the model summary and diagnostics checking plots for model $M_2.$ Does the straight line regression model $M_2$ seem to fit the data well? Comment about the output in a few concise sentences.
 
-    **Answer:**
-
     ```{r echo=FALSE}
     #model summary
     summary(glakes_lm_2)
@@ -282,8 +266,6 @@ State what each team member has contributed to the assignment before answering t
     ```
 
     (4 marks) Perform a hypothesis testing for a positive slope at a significance level of 5% based on model $M_2.$
-
-    **Answer:**
 
     1.  $H_0: \beta_1 \le 0$ against $H_A:  \beta_1 >  0$
 
@@ -309,6 +291,93 @@ State what each team member has contributed to the assignment before answering t
 
 (f) (6 marks) Compare a 95% confidence interval of the mean response and a 95% prediction interval for a new value when Tonnage = 10,000 using the untransformed model $M_1$ and transformed model $M_2$ respectively. Provide two scatterplots that consist the fitted model, the confidence and prediction intervals for each of $M_1$ and $M_2$ respectively. Comment about the output in a few concise sentences.
 
-    **Answer:**
+    When Tonnage = 10,000, for model $M_1$, the confidence interval of the mean response is given as (69.3647, 85.6821) and the prediction interval is given as (54.1705, 100.8763).
 
-    *Answer text here*
+    ```{r eval=FALSE}
+    #95% confidence and prediction interval for model 1 
+    newdata_1= data.frame(Tonnage = 10000)
+    conf_int_1 <- predict(glakes_lm_1, newdata = newdata_1, 
+                          interval = "confidence", level = 0.95)
+    pred_int_1 <- predict(glakes_lm_1, newdata = newdata_1, 
+                          interval = "predict", level = 0.95)
+    ```
+
+    For model $M_2$, as it is a transformed model, when Tonnage = 10,000, $\sqrt{Tonnage}$ = 100. The confidence interval of the mean response is given as (4.1400, 4.5837) and the prediction interval is given as (3.7002, 5.0234).
+
+    ```{r eval=FALSE}
+    #95% confidence and prediction interval for model 2
+    newdata_2= data.frame(sqrt_Tonnage = 100)
+    conf_int_2 <- predict(glakes_lm_2, newdata = newdata_2, 
+                          interval = "confidence", level = 0.95)
+    pred_int_2 <- predict(glakes_lm_2, newdata = newdata_2, 
+                          interval = "predict", level = 0.95)
+    ```
+
+    For both of these models, the prediction intervals are wider than the confidence intervals because they include both:
+
+    1.  Uncertainty about the mean response (as in confidence intervals)
+    2.  Random variation of individual observations around the mean
+
+    Taking a look at the plots for the fitted model, the confidence and prediction intervals for each of $M_1$ and $M_2$ respectively:
+
+    ```{r echo=FALSE}
+    # Prepare data for intervals
+    newdata_1 = data.frame(Tonnage = glakes$Tonnage)
+    conf_intervals <- predict(glakes_lm_1, newdata = newdata_1, interval = "confidence", level = 0.95)
+    pred_intervals <- predict(glakes_lm_1, newdata = newdata_1, interval = "predict", level = 0.95)
+
+    # Combine the data into one data frame for easier plotting
+    glakes$conf_lower <- conf_intervals[, 2]
+    glakes$conf_upper <- conf_intervals[, 3]
+    glakes$pred_lower <- pred_intervals[, 2]
+    glakes$pred_upper <- pred_intervals[, 3]
+
+    # Create the plot
+    ggplot(data = glakes) + 
+      geom_point(mapping = aes(x = Tonnage, y = Time)) + 
+      geom_line(aes(x = newdata_1$Tonnage, y = conf_intervals[,1], color = "Fitted Line")) + 
+      geom_line(aes(x = Tonnage, y = conf_lower, color = "Confidence Interval"), linetype = 2) + 
+      geom_line(aes(x = Tonnage, y = conf_upper, color = "Confidence Interval"), linetype = 2) + 
+      geom_line(aes(x = Tonnage, y = pred_lower, color = "Prediction Interval"), linetype = 2) + 
+      geom_line(aes(x = Tonnage, y = pred_upper, color = "Prediction Interval"), linetype = 2) + 
+      labs(title = "Confidence and Prediction Intervals for model M_1", 
+       x = "Tonnage", 
+       y = "Time") + 
+      scale_color_manual(values = c("Fitted Line" = "black", "Confidence Interval" = "blue", "Prediction Interval" = "red")) +
+      theme(legend.position = "bottom") + 
+      guides(color = guide_legend(title = "Legend"))
+    ```
+
+    ```{r echo=FALSE}
+    # Prepare data for intervals
+    newdata_2 = data.frame(sqrt_Tonnage = sqrt_Tonnage)
+    conf_intervals_2 <- predict(glakes_lm_2, newdata = newdata_2, interval = "confidence", level = 0.95)
+    pred_intervals_2 <- predict(glakes_lm_2, newdata = newdata_2, interval = "predict", level = 0.95)
+
+    glakes2 <- data.frame(log_Time = log_Time, sqrt_Tonnage=sqrt_Tonnage)
+
+    # Combine the data into one data frame for easier plotting
+    glakes2$conf_lower <- conf_intervals_2[, 2]
+    glakes2$conf_upper <- conf_intervals_2[, 3]
+    glakes2$pred_lower <- pred_intervals_2[, 2]
+    glakes2$pred_upper <- pred_intervals_2[, 3]
+
+    #plot the graph
+    ggplot(data = glakes2) + 
+      geom_point(mapping = aes(x = sqrt_Tonnage, y = log_Time)) + 
+      geom_line(aes(x = newdata_2$sqrt_Tonnage, y = conf_intervals_2[,1], color = "Fitted Line")) + 
+      geom_line(aes(x = sqrt_Tonnage, y = conf_lower, color = "Confidence Interval"), linetype = 2) + 
+      geom_line(aes(x = sqrt_Tonnage, y = conf_upper, color = "Confidence Interval"), linetype = 2) + 
+      geom_line(aes(x = sqrt_Tonnage, y = pred_lower, color = "Prediction Interval"), linetype = 2) + 
+      geom_line(aes(x = sqrt_Tonnage, y = pred_upper, color = "Prediction Interval"), linetype = 2) + 
+      labs(title = "Confidence and Prediction Intervals for model M_2", 
+       x = "sqrt(Tonnage)", 
+       y = "Log(Time)") + 
+      scale_color_manual(values = c("Fitted Line" = "black", "Confidence Interval" = "blue", "Prediction Interval" = "red")) +
+      theme(legend.position = "bottom") + 
+      guides(color = guide_legend(title = "Legend"))
+    ```
+
+    We see that the prediction intervals is slimmer than the confidence interval, and are tightest in the middle of the data, widening at the extremes.
+
+    Most data points also falls within the prediction interval, indicating the model captures the overall variability well.
