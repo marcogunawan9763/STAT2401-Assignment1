@@ -185,7 +185,7 @@ The fitted model equation is : Time= 12.3447+ 0.006518 × Tonnage
 
 Slope interpretation βˆ1 = 0.006518: Time is expected to increase by 0.006518 units on average for every 1 unit increase in Tonnage.
 
-Intercept interpretation βˆ 0 = 12.3447: This means that when the tonnage is zero, the time taken to unload and load the ship is expected to be 12.3447 units. This measurement is the time the ship spent in port as the time recorded includes this alongside the load/unload times.
+Intercept interpretation βˆ 0 = 12.3447: This means that when the tonnage is zero, the time taken to unload and load the ship is expected to be 12.3447 units. This measurement could be the for the time the ship spends in port doing other activities such as refueling or stocking food for the crew.
 
 The p-values for both coefficients are both extremely small, being under 0.001 which means we have strong evidence to reject the null hypothesis. Thus it is suggested that the tonnage has a significant impact on time.
 
@@ -197,9 +197,11 @@ Q-Q Residuals: The majority of the data-points are on the diagonal line, suggest
 
 Scale-Location: The line trends slightly upwards which suggests that the variance may not be constant and is in fact increasing.
 
-Residuals vs Leverage: (this is covered in the next question)
+Residuals vs Leverage: The residuals vs leverage plot depicts some areas that require investigation. A large leverage means that the singular datapoint has a high influence on the output of the model. A high absolute value of the standardized residual means that they are poorly predicted by the model. Therefore the areas that require further investigation are those that have both a high leverage and a standard residual far from zero. Those values are datapoints 31 and 3.
 
     *Answer text here*
+    
+    
     
 ```{r}
 summary(model_m1)
@@ -219,18 +221,27 @@ par(mfrow = c(1, 1))  # Reset plot layout
 (d) (4 marks) Fit a regression model to the transformed $M_2$ model. Present the appropriate scatterplot and plot the fitted line onto the scatterplot. Does the transformed line regression model $M_2$ seem to fit the data well? Comment about the output in a few concise sentences.
 
     **Answer:**
+    
 Model Summary: 
 
 The fitted model equation is: log(Time) = 2.2104 + 0.02151 × sqrt(Tonnage)  
 
-Slope interpretation (β̂₁ = 0.02151):**do later**
+Slope interpretation (β̂₁ = 0.02151): For every unit increase in the square root of tonnage, the log of time is expected to increase by an average of 0.0215 units.
 
-Intercept interpretation (β̂₀ = 2.2104):**do later**
-
-Diagnostic Plots Analysis: **do later**
+Intercept interpretation (β̂₀ = 2.2104) When the tonnage is zero, the logarithm of time is expected to be 2.2104. This means the time is approximetly 9.12 units. This measurement could be the for the time the ship spends in port doing other activities such as refueling or stocking food for the crew.
 
 The p-values for both coefficients are both less than 0.001. This provides strong evidence that rejects the null hypothesis. Therefore, it is suggested that there is a significant relationship between the square root of tonnage and logarithm of time.
 
+
+Diagnostic Plots Analysis:
+
+Residuals vs Fitted: The plot depicts no clear patterns. Therefore, the relationship is suggested to be reasonably linear.
+
+Q-Q Residuals: Most of the observations lie along the diagonal, except a few datapoints at the extremities of the graph. This suggests the residuals are generally linear.
+
+Scale-Location: There is no clear pattern visable but that may be due to the limited amounts of data past the 4.0 range of fitted values. Based off the data given, it is suggested that the variance is constant. (Idk if this conclusion is right pls check thx)
+
+Residuals vs Leverage: Again we are looking for data points in the graph with both a high leverage and a standardized residual far from zero. For the most part all data points follow that trend except data point 3, which has a slightly low standardized residual value for it being larger in leverage. Hence further investigation of data point 3 is reccomended.
 
     *Answer text here*
 
