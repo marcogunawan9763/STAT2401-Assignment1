@@ -159,7 +159,7 @@ cat("99% CI: (", CI_lower, ",", CI_upper, ")\n")
 
     **Answer:**
     
-    The output depicts a positive linear relationship between the volume of a ship's cargo (tonnage) and the time required to load and unload it. This suggests that the larger the tonnage, the longer it will take to load and unload it. However, the strength of the relationship is weak past the 7500 ton mark as there are insufficient data points in that range. Most observations fall below 7500 tons, with only two data points above this threshold. Hence this model may not be reliable in this higher tonnage range.
+The output depicts a positive linear relationship between the volume of a ship's cargo (tonnage) and the time required to load and unload it. This suggests that the larger the tonnage, the longer it will take to load and unload it. However, the strength of the relationship is weak past the 7500 ton mark as there are insufficient data points in that range. Most observations fall below 7500 tons, with only two data points above this threshold. Hence this model may not be reliable in this higher tonnage range.
     
     
 
@@ -221,7 +221,14 @@ par(mfrow = c(1, 1))  # Reset plot layout
 (d) (4 marks) Fit a regression model to the transformed $M_2$ model. Present the appropriate scatterplot and plot the fitted line onto the scatterplot. Does the transformed line regression model $M_2$ seem to fit the data well? Comment about the output in a few concise sentences.
 
     **Answer:**
-    
+Just like M1, the transformed line (M2) depicts a positive linear relationship between the square root of the volume of a ship's cargo (tonnage) and the logarithm of the time required to load and unload it. This suggests that as the square root of the tonnage increases, the time required to load and unload the ship (as reflected by log(time)) also increases. The strength of the relationship also appears to have improved compared to M1. This is due to the transformations depicting the data-points being spread more evenly throughout the x-axis. However, past approximately the 85 unit mark of sqrt(tonnage), more data-points would be preferred. Overall, M2 fits the data better than M1, being more reliable in the high-tonnage ranges but could still use a few more data-points. 
+
+    *Answer text here*
+
+(e) (5 marks) Provide the model summary and diagnostics checking plots for model $M_2.$ Does the straight line regression model $M_2$ seem to fit the data well? Comment about the output in a few concise sentences.
+
+    **Answer:**
+
 Model Summary: 
 
 The fitted model equation is: log(Time) = 2.2104 + 0.02151 × sqrt(Tonnage)  
@@ -243,11 +250,6 @@ Scale-Location: There is no clear pattern visable but that may be due to the lim
 
 Residuals vs Leverage: Again we are looking for data points in the graph with both a high leverage and a standardized residual far from zero. For the most part all data points follow that trend except data point 3, which has a slightly low standardized residual value for it being larger in leverage. Hence further investigation of data point 3 is reccomended.
 
-    *Answer text here*
-
-(e) (5 marks) Provide the model summary and diagnostics checking plots for model $M_2.$ Does the straight line regression model $M_2$ seem to fit the data well? Comment about the output in a few concise sentences.
-
-    **Answer:**
 
     *Answer text here*
 
