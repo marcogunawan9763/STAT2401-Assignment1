@@ -157,7 +157,7 @@ Each member attempted each question, and we combines and discussed our personal 
     glakes_lm_1 <- lm(Time~Tonnage, data = glakes)
     ```
 
-    ```{r echo=FALSE}
+    ```{r echo=FALSE, fig.width=4, fig.height=3}
     library(ggplot2)
     ggplot(data = glakes) + 
       geom_point(mapping = aes(x = Tonnage, y = Time)) +
@@ -168,9 +168,9 @@ Each member attempted each question, and we combines and discussed our personal 
            y = "Time")
     ```
 
-(b) (5 marks) Provide the model summary and diagnostics checking plots for model $M_1.$ Does the straight line regression model $M_1$ seem to fit the data well? Comment about the output in a few concise sentences.
+The output depicts a positive linear relationship between the volume of a ship's cargo (tonnage) and the time required to load and unload it. This suggests that the larger the tonnage, the longer it will take to load and unload it. However, the strength of the relationship is weak past the 7500 ton mark as there are insufficient data points in that range. Most observations fall below 7500 tons, with only two data points above this threshold. Hence this model may not be reliable in this higher tonnage range.
 
-    **Answer:**
+(b) (5 marks) Provide the model summary and diagnostics checking plots for model $M_1.$ Does the straight line regression model $M_1$ seem to fit the data well? Comment about the output in a few concise sentences.
 
     The model summary for model $M_1$:
 
@@ -187,11 +187,31 @@ Each member attempted each question, and we combines and discussed our personal 
     plot(glakes_lm_1)
     ```
 
+**Model Summary Analysis:**
+
+The fitted model equation is : Time= 12.3447+ 0.006518 × Tonnage
+
+Slope interpretation ($\hat{\beta}_1$ = 0.006518): Time is expected to increase by 0.006518 units on average for every 1 unit increase in Tonnage.
+
+Intercept interpretation ($\hat{\beta}_0$ = 12.3447): This means that when the tonnage is zero, the time taken to unload and load the ship is expected to be 12.3447 units. This measurement could be the for the time the ship spends in port doing other activities such as refueling or stocking food for the crew.
+
+The p-values for both coefficients are both extremely small, being under 0.001 which means we have strong evidence to reject the null hypothesis. Thus it is suggested that the tonnage has a significant impact on time.
+
+**Diagnostic Plots Analysis:**
+
+Residuals vs Fitted: The plot shows no clear pattern. This suggests that the relationship is approximately linear.
+
+Q-Q Residuals: The majority of the data-points are on the diagonal line, suggesting the residuals are apporiximetly normally distrubted. However. there is some deviation towards the extremes indicating there may be some outliers within the data.
+
+Scale-Location: The line trends slightly upwards which suggests that the variance may not be constant and is in fact increasing.
+
+Residuals vs Leverage: The residuals vs leverage plot depicts some areas that require investigation. A large leverage means that the singular datapoint has a high influence on the output of the model. A high absolute value of the standardized residual means that they are poorly predicted by the model. Therefore the areas that require further investigation are those that have both a high leverage and a standard residual far from zero. Those values are datapoints 31 and 3.
+
 (c) (5 marks) Do you think there are outliers or influential points in the data? What influence do these points have on the model fit? Use leverage and Cook's distance for this investigation.
 
     Having a look at the Cook's distance plot:
 
-    ```{r echo=FALSE}
+    ```{r echo=TRUE, fig.width=4, fig.height=3}
     par(mar = c(4, 4, 1.5, 1.5))
     plot(glakes_lm_1, which = 5, cook.levels = 4 / (nrow(glakes) - 2))
     abline(h = 2, col = "red", lty = 2)   # horizontal line at y = 2
@@ -204,7 +224,7 @@ Each member attempted each question, and we combines and discussed our personal 
 
     Influential points are observations that have a big influence on the fitted line. This happens when the observations are both high leverage and is unusual (potentially an outlier). We note that the only point which meets both of these criterias is observation 3 and fitting a model after removing this point gives us:
 
-    ```{r echo=FALSE}
+    ```{r echo=FALSE, fig.width=4, fig.height=3}
     glakes_clean <- glakes[-c(3), ]
     glakes_lm_1_clean <- lm(Time~Tonnage, data = glakes_clean)
 
@@ -241,7 +261,7 @@ Each member attempted each question, and we combines and discussed our personal 
     glakes_lm_2 <- lm(log_Time~sqrt_Tonnage, data = glakes)
     ```
 
-    ```{r echo=FALSE}
+    ```{r echo=FALSE, fig.width=4, fig.height=3}
     #plot transformed M_2 model
     ggplot(data = glakes) + 
       geom_point(mapping = aes(x = sqrt_Tonnage, y = log_Time)) +
@@ -251,6 +271,8 @@ Each member attempted each question, and we combines and discussed our personal 
            x = "sqrt(Tonnage)", 
            y = "Log(Time)")
     ```
+
+Just like M1, the transformed line (M2) depicts a positive linear relationship between the square root of the volume of a ship's cargo (tonnage) and the logarithm of the time required to load and unload it. This suggests that as the square root of the tonnage increases, the time required to load and unload the ship (as reflected by log(time)) also increases. The strength of the relationship also appears to have improved compared to M1. This is due to the transformations depicting the data-points being spread more evenly throughout the x-axis. However, past approximately the 85 unit mark of sqrt(tonnage), more data-points would be preferred. Overall, M2 fits the data better than M1, being more reliable in the high-tonnage ranges but could still use a few more data-points.
 
 (e) (5 marks) Provide the model summary and diagnostics checking plots for model $M_2.$ Does the straight line regression model $M_2$ seem to fit the data well? Comment about the output in a few concise sentences.
 
@@ -265,31 +287,49 @@ Each member attempted each question, and we combines and discussed our personal 
     plot(glakes_lm_2)
     ```
 
-    (4 marks) Perform a hypothesis testing for a positive slope at a significance level of 5% based on model $M_2.$
+**Model Summary Analysis:**
 
-    1.  $H_0: \beta_1 \le 0$ against $H_A:  \beta_1 >  0$
+The fitted model equation is: log(Time) = 2.2104 + 0.02151 × sqrt(Tonnage)
 
-        where $\beta_1$ is the slope of the model $M_2$. Note that the alternative hypothesis is one sided.
+Slope interpretation ( $\hat{\beta}_1$ = 0.02151): For every unit increase in the square root of tonnage, the log of time is expected to increase by an average of 0.0215 units.
 
-    2.  The test statistic (from R output as shown in question (e):
+Intercept interpretation ($\hat{\beta}_0$ = 2.2104) When the tonnage is zero, the logarithm of time is expected to be 2.2104. This means the time is approximetly 9.12 units. This measurement could be the for the time the ship spends in port doing other activities such as refueling or stocking food for the crew.
 
-        $$
-        t = \frac{\hat{\beta}-0}{se(\hat{\beta})}=\frac{0.021514}{0.001909}=11.27
-        $$
+The p-values for both coefficients are both less than 0.001. This provides strong evidence that rejects the null hypothesis. Therefore, it is suggested that there is a significant relationship between the square root of tonnage and logarithm of time.
 
-    3.  The sampling distribution for the test statistic t is $t_{df=(n-2)}$ that is $t_{df=31-2=29}$.
+**Diagnostic Plots Analysis:**
 
-    4.  The p-value = P($t_{29}$ \> 11.27) = 2.048434e-12
+Residuals vs Fitted: The plot depicts no clear patterns. Therefore, the relationship is suggested to be reasonably linear.
 
-        ```{r include = FALSE}
-        pt(11.27, 29, lower.tail=FALSE)
-        ```
+Q-Q Residuals: Most of the observations lie along the diagonal, except a few data points at the extremities of the graph. This suggests the residuals are generally linear.
 
-    5.  Decision. Given the p-value is less than the significance level (0.05), we reject the null hypothesis $H_0$ at the 5% significance level.
+Scale-Location: There is no clear pattern visible but that may be due to the limited amounts of data past the 4.0 range of fitted values. Based off the data given, it is suggested that the variance is constant.
 
-    6.  Conclusion. Therefore, we conclude that the slope is statistically significantly positive.
+Residuals vs Leverage: Again we are looking for data points in the graph with both a high leverage and a standardized residual far from zero. For the most part all data points follow that trend except data point 3, which has a slightly low standardized residual value for it being larger in leverage. Hence further investigation of data point 3 is recommended.
 
-(f) (6 marks) Compare a 95% confidence interval of the mean response and a 95% prediction interval for a new value when Tonnage = 10,000 using the untransformed model $M_1$ and transformed model $M_2$ respectively. Provide two scatterplots that consist the fitted model, the confidence and prediction intervals for each of $M_1$ and $M_2$ respectively. Comment about the output in a few concise sentences.
+(f) (4 marks) Perform a hypothesis testing for a positive slope at a significance level of 5% based on model $M_2$.
+
+<!-- -->
+
+1.  $H_0: \beta_1 \le 0$ against $H_A: \beta_1 > 0$, where $\beta_1$ is the slope of the model $M_2$. Note that the alternative hypothesis is one sided.
+
+2.  The test statistic (from R output as shown in question (e)):
+
+$$
+t = \frac{\hat{\beta}-0}{se(\hat{\beta})} = \frac{0.021514}{0.001909} = 11.27
+$$
+
+3.  The sampling distribution for the test statistic $t$ is $t_{\text{df} = (n - 2)}$, that is $t_{df = 31 - 2 = 29}$.
+
+4.  The p-value = $P(t_{29} > 11.27) = 2.048434 \times 10^{-12}$
+
+5.  **Decision**: Given the p-value is less than the significance level (0.05), we reject the null hypothesis $H_0$ at the 5% significance level.
+
+6.  **Conclusion**: Therefore, we conclude that the slope is statistically significantly positive.
+
+<!-- -->
+
+(g) (6 marks) Compare a 95% confidence interval of the mean response and a 95% prediction interval for a new value when Tonnage = 10,000 using the untransformed model $M_1$ and transformed model $M_2$ respectively. Provide two scatterplots that consist the fitted model, the confidence and prediction intervals for each of $M_1$ and $M_2$ respectively. Comment about the output in a few concise sentences.
 
     When Tonnage = 10,000, for model $M_1$, the confidence interval of the mean response is given as (69.3647, 85.6821) and the prediction interval is given as (54.1705, 100.8763).
 
@@ -320,7 +360,7 @@ Each member attempted each question, and we combines and discussed our personal 
 
     Taking a look at the plots for the fitted model, the confidence and prediction intervals for each of $M_1$ and $M_2$ respectively:
 
-    ```{r echo=FALSE}
+    ```{r echo=FALSE, fig.width=4, fig.height=3}
     # Prepare data for intervals
     newdata_1 = data.frame(Tonnage = glakes$Tonnage)
     conf_intervals <- predict(glakes_lm_1, newdata = newdata_1, interval = "confidence", level = 0.95)
@@ -348,7 +388,7 @@ Each member attempted each question, and we combines and discussed our personal 
       guides(color = guide_legend(title = "Legend"))
     ```
 
-    ```{r echo=FALSE}
+    ```{r echo=FALSE, fig.width=4, fig.height=3}
     # Prepare data for intervals
     newdata_2 = data.frame(sqrt_Tonnage = sqrt_Tonnage)
     conf_intervals_2 <- predict(glakes_lm_2, newdata = newdata_2, interval = "confidence", level = 0.95)
