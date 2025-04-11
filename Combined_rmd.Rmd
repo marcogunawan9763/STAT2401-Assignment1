@@ -112,7 +112,7 @@ Each member attempted each question, and we combined and discussed our personal 
 
 (b) (3 marks) Determine a 99% confidence interval for the mean difference in concentration of plasma cholesterol between the two groups of patients.
 
-    A 99% confidene interval for the mean difference in concentration of plasma cholesterol between the two groups of patients can be given as:
+    A 99% confidence interval for the mean difference in concentration of plasma cholesterol between the two groups of patients can be given as:
 
     (-35.7164, -6.1158)
 
